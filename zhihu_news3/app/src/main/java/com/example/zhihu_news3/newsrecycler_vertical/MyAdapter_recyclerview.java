@@ -27,9 +27,11 @@ public class MyAdapter_recyclerview extends RecyclerView.Adapter<MyAdapter_recyc
     private AnalyzeData analyzeData;
     private OnItemClickListener mOnItemClickListener = null;
     private int[] data;
+    String path;
     public MyAdapter_recyclerview(int[] data,String path) {
         this.data = data;
-        webconnection webconnection = new webconnection(path,0);
+        this.path = path;
+        webconnection webconnection = new webconnection(this.path,0);
         try {
             Thread.sleep(1000);
         } catch (InterruptedException e) {
@@ -37,9 +39,10 @@ public class MyAdapter_recyclerview extends RecyclerView.Adapter<MyAdapter_recyc
         }
         analyzeData = new JsonAnalyze(webconnection.getJsonData(),0).getAnalyzeData();
     }
-
-    public void updateData( int[] data) {
+    //刷新和加载
+    public void updateData( int[] data,String path) {
         this.data =data;
+        this.path = path;
         notifyDataSetChanged();
     }
 
