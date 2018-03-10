@@ -9,7 +9,7 @@ a new repository for the homework of redrock
 
 只做了首页的目录和点击事件
 
-首页目录和点击事件加载非常缓慢，请稍微等待一下
+首页目录和点击事件加载有点缓慢，请稍微等待一下
 
 除viewpager轮播条的白点代码参考自网络，其他都是我自己编的，以致过于拙劣
 
