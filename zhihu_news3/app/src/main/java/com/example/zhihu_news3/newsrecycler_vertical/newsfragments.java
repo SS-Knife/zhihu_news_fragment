@@ -1,5 +1,7 @@
 package com.example.zhihu_news3.newsrecycler_vertical;
 
+import com.example.zhihu_news3.Webconnection.AnalyzeData;
+import com.example.zhihu_news3.Webconnection.JsonAnalyze;
 import com.example.zhihu_news3.Webconnection.webconnection;
 
 /**
@@ -7,19 +9,28 @@ import com.example.zhihu_news3.Webconnection.webconnection;
  */
 
 public class newsfragments {
+    webconnection webconnection;
+    AnalyzeData analyzeData;
     String title;
     String images;
     int ga_prefix;
     int type;
-    int id;
+    String id;
     int date;
     public newsfragments(int position,String path){
-        this.type=new webconnection(path,0).getJsonAnalyze().getAnalyzeData().getType()[position];
-        this.title=new webconnection(path,0).getJsonAnalyze().getAnalyzeData().getTitle()[position];
-        this.date=new webconnection(path,0).getJsonAnalyze().getAnalyzeData().getDate();
-        this.ga_prefix=new webconnection(path,0).getJsonAnalyze().getAnalyzeData().getGa_prefix()[position];
-        this.id=new webconnection(path,0).getJsonAnalyze().getAnalyzeData().getId()[position];
-        this.images=new webconnection(path,0).getJsonAnalyze().getAnalyzeData().getImages()[position];
+        webconnection = new webconnection(path,0);
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        analyzeData = new JsonAnalyze(webconnection.getJsonData(),0).getAnalyzeData();
+        this.type=analyzeData.getType()[position];
+        this.title=analyzeData.getTitle()[position];
+        this.date=analyzeData.getDate();
+        this.ga_prefix=analyzeData.getGa_prefix()[position];
+        this.id=analyzeData.getId()[position];
+        this.images=analyzeData.getImages()[position];
     }
 
     public int getDate() {
@@ -30,7 +41,7 @@ public class newsfragments {
         return ga_prefix;
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 

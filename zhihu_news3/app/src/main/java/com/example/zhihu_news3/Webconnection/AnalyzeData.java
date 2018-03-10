@@ -20,7 +20,7 @@ public class AnalyzeData {
     private String[]editor_name = new String[l];
     private int[]type = new int[l];
     private int[]ga_prefix = new int[l];
-    private int[]id = new int[l];
+    private String[]id = new String[l];
     private int status = 0;
     private int date;
     private String latest = " ";
@@ -65,7 +65,7 @@ public class AnalyzeData {
         return thumbnail;
     }
 
-    public int[] getId() {
+    public String[] getId() {
         return id;
     }
 
@@ -115,7 +115,7 @@ public class AnalyzeData {
         this.js = js;
     }
 
-    public void setId(int[] id) {
+    public void setId(String[] id) {
         this.id = id;
     }
 

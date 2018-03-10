@@ -3,12 +3,15 @@ package com.example.zhihu_news3.Webconnection;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.net.URL;
+
+import static android.content.ContentValues.TAG;
 
 /**
  * Created by 郝书逸 on 2018/2/14.
@@ -21,7 +24,6 @@ public class JsonAnalyze {
     JSONArray jsonArray_stories;
     JSONArray jsonArray_top_stories;
     int l;
-    int linktype;
     public JsonAnalyze(String jsonData,int linktype){
         this.jsonData=jsonData;
         try {
@@ -33,18 +35,18 @@ public class JsonAnalyze {
                     break;
                 case 1:
                     jsonArray_top_stories = jsonObject.getJSONArray("top_stories");
-                    l=jsonArray_stories.length();
+                    l=jsonArray_top_stories.length();
                     break;
                 default:
                     l=1;
                     break;
             }
-            analyzeData=new AnalyzeData(l);
+            analyzeData = new AnalyzeData(l);
+            parseJSONWithJSONObject(linktype);
+            //analyzeData = new AnalyzeData(l);
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
-        parseJSONWithJSONObject(linktype);
     }
     private void parseJSONWithJSONObject(int linktype){
         try{
@@ -59,7 +61,7 @@ public class JsonAnalyze {
             String[]editor_name = new String[l];
             int[]type = new int[l];
             int[]ga_prefix = new int[l];
-            int[]id = new int[l];
+            String[]id = new String[l];
             int status = 0;
             int date = 0;
             String latest = " ";
@@ -75,22 +77,21 @@ public class JsonAnalyze {
                         ga_prefix[i]=jsonObject_story.getInt("ga_prefix");
                         images[i]=jsonObject_story.getJSONArray("images").getString(0);
                         type[i]=jsonObject_story.getInt("type");
-                        id[i]=jsonObject_story.getInt("id");
+                        id[i]=jsonObject_story.getString("id");
                     }
 
 
                     break;
                 //最新消息滚动条
                 case 1:
-                    date = jsonObject.getInt("date");
 
                     for (int i = 0; i <jsonArray_top_stories.length(); i++) {
                         JSONObject jsonObject_top_story = jsonArray_top_stories.getJSONObject(i);
                         title[i]=jsonObject_top_story.getString("title");
                         ga_prefix[i]=jsonObject_top_story.getInt("ga_prefix");
-                        images[i]=jsonObject_top_story.getJSONArray("images").getString(0);
+                        images[i]=jsonObject_top_story.getString("image");
                         type[i]=jsonObject_top_story.getInt("type");
-                        id[i]=jsonObject_top_story.getInt("id");
+                        id[i]=jsonObject_top_story.getString("id");
                     }
 
                     break;
@@ -100,7 +101,7 @@ public class JsonAnalyze {
                     ga_prefix[0]=jsonObject.getInt("ga_prefix");
                     images[0]=jsonObject.getString("image");
                     type[0]=jsonObject.getInt("type");
-                    id[0]=jsonObject.getInt("id");
+                    id[0]=jsonObject.getString("id");
                     body[0]=jsonObject.getString("body");
                     image_source[0]=jsonObject.getString("image_source");
                     js[0]=jsonObject.getString("js");

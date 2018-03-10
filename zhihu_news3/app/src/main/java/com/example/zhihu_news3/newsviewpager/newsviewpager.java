@@ -1,12 +1,13 @@
 package com.example.zhihu_news3.newsviewpager;
 
-import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v4.app.Fragment;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,11 +16,11 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.zhihu_news3.MainActivity;
-import com.example.zhihu_news3.NewsdetailActivity;
 import com.example.zhihu_news3.R;
 import com.example.zhihu_news3.Webconnection.AnalyzeData;
 import com.example.zhihu_news3.Webconnection.JsonAnalyze;
 import com.example.zhihu_news3.Webconnection.webconnection;
+import com.example.zhihu_news3.detailActivity;
 
 import java.net.URL;
 import java.util.ArrayList;
@@ -33,14 +34,12 @@ public class newsviewpager extends Fragment {
     private ViewPager viewPager;//图片滑动的控件
     private TextView textView;//图片上显示的文字
     private LinearLayout pointGroup;//滑动的指示
-    /**
-     * 装图片的资源id
-     */
-    // TODO: 2018/2/25 图片离线
-    AnalyzeData analyzeData = new webconnection(myurl,1).getJsonAnalyze().getAnalyzeData();
-    private String[] imageArr = analyzeData.getImages();
-    private String[] textArr = analyzeData.getTitle();
-    private int[] idArr = analyzeData.getId();
+    webconnection webconnection;
+    JsonAnalyze jsonAnalyze;
+    AnalyzeData analyzeData= new AnalyzeData(20);
+    private String[] imageArr;
+    private String[] textArr;
+    private String[] idArr;
     private ArrayList<ImageView> imgList;
     private int lastPointPosition;//上一个页面的位置索引,也是上一个指示器的索引
     /**
@@ -73,6 +72,18 @@ public class newsviewpager extends Fragment {
         viewPager = (ViewPager) view.findViewById(R.id.viewPager);
         textView = (TextView) view.findViewById(R.id.textView);
         pointGroup = (LinearLayout) view.findViewById(R.id.point_group);
+        webconnection = new webconnection(myurl,1);
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        jsonAnalyze= new JsonAnalyze(webconnection.getJsonData(),1);
+        analyzeData =jsonAnalyze.getAnalyzeData();
+        textArr = analyzeData.getTitle();
+        imageArr = analyzeData.getImages();
+        idArr = analyzeData.getId();
+
         initData();//初始化
 
         //添加适配器
@@ -119,18 +130,19 @@ public class newsviewpager extends Fragment {
      * 这里通过数组的长度,动态添加图片和指示器,有利于从网络上获取数据显示
      */
     private void initData(){
+        Log.d("Test", "initData: ");
         imgList=new ArrayList<ImageView>();
         for (int i=0;i<imageArr.length;i++) {
             //初始化图片
             ImageView image=new ImageView(getActivity());
             new webconnection(imageArr[i],image).getdetail_drawable();
-            final int id = idArr[i];
+            final String id = idArr[i];
             image.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     Intent intent=new Intent();
                     intent.putExtra("id",id);
-                    intent.setClass(getActivity(), NewsdetailActivity.class);
+                    intent.setClass(getActivity(), detailActivity.class);
                     startActivity(intent);
                 }
             });

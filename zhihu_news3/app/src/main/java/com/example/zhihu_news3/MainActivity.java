@@ -22,9 +22,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        TextView json = (TextView)findViewById(R.id.json);
-        // TODO: 2018/3/8 删下面一行
-        json.setText(jsontext+"123");
+
     }
 
 }

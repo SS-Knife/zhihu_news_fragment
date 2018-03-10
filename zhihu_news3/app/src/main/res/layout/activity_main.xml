@@ -4,18 +4,17 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context="com.example.zhihu_news3.MainActivity">
-
-        <FrameLayout
+        <fragment
             class="com.example.zhihu_news3.newsviewpager.newsviewpager"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/newsbanner"/>
-
-        <FrameLayout
+        <fragment
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/datenews"
+            android:id ="@+id/datenews"
             class="com.example.zhihu_news3.newsrecycler_vertical.newsrecyclerview_vertical"/>
         <TextView
             android:layout_width="wrap_content"

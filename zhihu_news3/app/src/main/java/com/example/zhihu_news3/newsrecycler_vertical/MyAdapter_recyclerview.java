@@ -8,8 +8,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-
-import com.example.zhihu_news3.NewsdetailActivity;
 import com.example.zhihu_news3.R;
 import com.example.zhihu_news3.Webconnection.webconnection;
 

@@ -16,9 +16,10 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
 import com.example.zhihu_news3.MainActivity;
-import com.example.zhihu_news3.NewsdetailActivity;
 import com.example.zhihu_news3.R;
+import com.example.zhihu_news3.Webconnection.JsonAnalyze;
 import com.example.zhihu_news3.Webconnection.webconnection;
+import com.example.zhihu_news3.detailActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,7 +46,7 @@ public class newsrecyclerview_vertical extends Fragment {
             @Override
             public void onItemClick(View view , int position){
                 Intent intent=new Intent();
-                intent.setClass(getActivity(), NewsdetailActivity.class);
+                intent.setClass(getActivity(), detailActivity.class);
                 intent.putExtra("id",getData().get(position).getId());
                 startActivity(intent);
 
@@ -54,7 +55,8 @@ public class newsrecyclerview_vertical extends Fragment {
         return view;
     }
     private List<newsfragments> getData(){
-        int l= new webconnection(getPath(),0).getJsonAnalyze().getAnalyzeData().getTitle().length;
+        webconnection webconnection = new webconnection(getPath(),0);
+        int l= new JsonAnalyze(webconnection.getJsonData(),0).getAnalyzeData().getTitle().length;
         List<newsfragments> data = new ArrayList<>();
         for (int i = 0; i <l ; i++) {
             data.add(new newsfragments(i,getPath()));
@@ -64,7 +66,7 @@ public class newsrecyclerview_vertical extends Fragment {
     private String getPath() {
         String path;
         String temp = "https://news-at.zhihu.com/api/4/news/";
-        path=temp+"latest";
+        path="https://news-at.zhihu.com/api/4/news/latest";
         // TODO: 2018/3/5 改上一行
         return path;
     }
