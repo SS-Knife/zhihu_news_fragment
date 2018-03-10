@@ -11,11 +11,11 @@ import com.example.zhihu_news3.Webconnection.webconnection;
 public class newsfragments {
     webconnection webconnection;
     AnalyzeData analyzeData;
-    String title;
-    String images;
-    int ga_prefix;
-    int type;
-    String id;
+    String[] title;
+    String[] images;
+    int[] ga_prefix;
+    int[] type;
+    String[] id;
     int date;
     public newsfragments(int position,String path){
         webconnection = new webconnection(path,0);
@@ -25,35 +25,35 @@ public class newsfragments {
             e.printStackTrace();
         }
         analyzeData = new JsonAnalyze(webconnection.getJsonData(),0).getAnalyzeData();
-        this.type=analyzeData.getType()[position];
-        this.title=analyzeData.getTitle()[position];
+        this.type=analyzeData.getType();
+        this.title=analyzeData.getTitle();
         this.date=analyzeData.getDate();
-        this.ga_prefix=analyzeData.getGa_prefix()[position];
-        this.id=analyzeData.getId()[position];
-        this.images=analyzeData.getImages()[position];
+        this.ga_prefix=analyzeData.getGa_prefix();
+        this.id=analyzeData.getId();
+        this.images=analyzeData.getImages();
     }
 
     public int getDate() {
         return date;
     }
 
-    public int getGa_prefix() {
+    public int[] getGa_prefix() {
         return ga_prefix;
     }
 
-    public String getId() {
+    public String[] getId() {
         return id;
     }
 
-    public int getType() {
+    public int[] getType() {
         return type;
     }
 
-    public String getImages() {
+    public String[] getImages() {
         return images;
     }
 
-    public String getTitle() {
+    public String[] getTitle() {
         return title;
     }
 }

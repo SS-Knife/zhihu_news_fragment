@@ -9,6 +9,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import com.example.zhihu_news3.R;
+import com.example.zhihu_news3.Webconnection.AnalyzeData;
+import com.example.zhihu_news3.Webconnection.JsonAnalyze;
 import com.example.zhihu_news3.Webconnection.webconnection;
 
 import java.util.ArrayList;
@@ -22,13 +24,21 @@ public class MyAdapter_recyclerview extends RecyclerView.Adapter<MyAdapter_recyc
     public static interface OnItemClickListener {
         void onItemClick(View view , int position);
     }
+    private AnalyzeData analyzeData;
     private OnItemClickListener mOnItemClickListener = null;
-    private List<newsfragments> data;
-    public MyAdapter_recyclerview(List<newsfragments> data) {
+    private int[] data;
+    public MyAdapter_recyclerview(int[] data,String path) {
         this.data = data;
+        webconnection webconnection = new webconnection(path,0);
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        analyzeData = new JsonAnalyze(webconnection.getJsonData(),0).getAnalyzeData();
     }
 
-    public void updateData( List<newsfragments> data) {
+    public void updateData( int[] data) {
         this.data =data;
         notifyDataSetChanged();
     }
@@ -46,14 +56,14 @@ public class MyAdapter_recyclerview extends RecyclerView.Adapter<MyAdapter_recyc
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         // 绑定数据
-        holder.mTv.setText(data.get(position).getTitle());
-        new webconnection(data.get(position).getImages(),holder.mIv);
+        holder.mTv.setText(analyzeData.getTitle()[position]);
+        new webconnection(analyzeData.getImages()[position],holder.mIv);
         holder.itemView.setTag(position);
     }
 
     @Override
     public int getItemCount() {
-        return data.size();
+        return data.length;
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
@@ -74,7 +84,10 @@ public class MyAdapter_recyclerview extends RecyclerView.Adapter<MyAdapter_recyc
             mOnItemClickListener.onItemClick(v,(int)v.getTag());
         }
     }
-
+    public String getItemid(int position){
+        String id = analyzeData.getId()[position];
+        return id;
+    }
     public void setOnItemClickListener(OnItemClickListener listener) {
         this.mOnItemClickListener = listener;
     }

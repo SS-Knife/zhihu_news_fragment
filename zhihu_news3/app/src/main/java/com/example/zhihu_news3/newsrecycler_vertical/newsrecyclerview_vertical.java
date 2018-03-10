@@ -17,6 +17,7 @@ import android.widget.FrameLayout;
 
 import com.example.zhihu_news3.MainActivity;
 import com.example.zhihu_news3.R;
+import com.example.zhihu_news3.Webconnection.AnalyzeData;
 import com.example.zhihu_news3.Webconnection.JsonAnalyze;
 import com.example.zhihu_news3.Webconnection.webconnection;
 import com.example.zhihu_news3.detailActivity;
@@ -32,11 +33,13 @@ public class newsrecyclerview_vertical extends Fragment {
 
     private RecyclerView.LayoutManager mLayoutManager;
 
+    private AnalyzeData analyzeData;
+
     @Override
     public View  onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.recyclerview,container,false);
         mLayoutManager = new LinearLayoutManager(this.getActivity() );
-        mAdapter = new MyAdapter_recyclerview(getData());
+        mAdapter = new MyAdapter_recyclerview(getPosition(),getPath());
         mRecyclerView = (RecyclerView)view.findViewById(R.id.recyclerview);
         // 设置布局管理器
         mRecyclerView.setLayoutManager(mLayoutManager);
@@ -47,21 +50,23 @@ public class newsrecyclerview_vertical extends Fragment {
             public void onItemClick(View view , int position){
                 Intent intent=new Intent();
                 intent.setClass(getActivity(), detailActivity.class);
-                intent.putExtra("id",getData().get(position).getId());
+                intent.putExtra("id",mAdapter.getItemid(position));
                 startActivity(intent);
 
             }
         });
         return view;
     }
-    private List<newsfragments> getData(){
+
+
+    private int[] getPosition(){
         webconnection webconnection = new webconnection(getPath(),0);
         int l= new JsonAnalyze(webconnection.getJsonData(),0).getAnalyzeData().getTitle().length;
-        List<newsfragments> data = new ArrayList<>();
+        int[] position = new int[l];
         for (int i = 0; i <l ; i++) {
-            data.add(new newsfragments(i,getPath()));
+            position[i]=i;
         }
-        return  data;
+        return position;
     }
     private String getPath() {
         String path;
