@@ -56,6 +56,7 @@ public class MyAdapter_recyclerview extends RecyclerView.Adapter<MyAdapter_recyc
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         // 绑定数据
+
         holder.mTv.setText(analyzeData.getTitle()[position]);
         new webconnection(analyzeData.getImages()[position],holder.mIv);
         holder.itemView.setTag(position);
