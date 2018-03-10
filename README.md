@@ -11,3 +11,4 @@ a new repository for the homework of redrock
 
 除viewpager轮播条的白点代码参考自网络，其他都是我自己编的，以致过于拙劣
 
+请谅解T~T
